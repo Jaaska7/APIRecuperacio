@@ -7,6 +7,7 @@ namespace InternetSalesModel.Models
     
     {
         [Required]
+        [Key]
         public string Name { get; set; }    
         
         [Required]

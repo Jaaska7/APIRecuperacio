@@ -6,9 +6,7 @@ namespace InternetSalesModel.Models
     public class CreditCard
     {
         [Required]
-        public string Name { get; set; }
-
-        [Required]
+        [Key]
         public string CardNumber { get; set; }
 
         [Required]

@@ -6,6 +6,7 @@ namespace InternetSalesModel.Models
     public class ShoppingCart
     {
         [Required]
+        [Key]
         public string Name { get; set; }    
         
         [Required]

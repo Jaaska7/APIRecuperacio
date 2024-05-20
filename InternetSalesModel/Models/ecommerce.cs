@@ -6,6 +6,7 @@ namespace InternetSalesModel.Models
     public class Ecommerce
     {
         [Required]
+        [Key]
         public string Name { get; set; }    
         
         [Required]
