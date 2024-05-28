@@ -48,11 +48,26 @@ Desarrollaremos operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para las si
 
 ### Funcionalidades Adicionales
 
+Perfecto, añadamos esas funcionalidades adicionales al apartado del README:
+
+### Funcionalidades Adicionales
+
 1. **Agregar Item a Order y Shopping Cart**:
-   - Implementar la funcionalidad para añadir un item a un pedido (Order) y a un carrito de compras (Shopping Cart).
+   - Se ha implementado la capacidad de agregar un ítem a un pedido (Order) y a un carrito de compras (Shopping Cart) utilizando las respectivas API endpoints.
+     - En el caso de OrderItems, se pueden agregar, modificar y eliminar elementos de la orden.
+     - Para ShoppingCartItems, se han implementado las operaciones de agregar, modificar y eliminar elementos del carrito de compras.
 
 2. **Calcular el Total de un Producto**:
-   - A partir de un código de producto, se debe calcular el total de unidades vendidas y el precio total que representan estas unidades. Esta información debe obtenerse a partir de las relaciones con **Order** y **Shopping Cart**.
+   - Se ha añadido una nueva acción en el controlador de OrderItems (`GetItemStats`) que calcula el total de unidades vendidas y el ingreso total generado por un producto específico a partir de su `ItemId`. Este endpoint devuelve un JSON con la información requerida.
+
+3. **Obtener Total de un Pedido**:
+   - Se ha implementado una funcionalidad para obtener el total de un pedido, considerando la suma de los precios de todos los ítems incluidos en el pedido.
+
+4. **Actualizar Estado del Pedido**:
+   - Se ha añadido la capacidad de actualizar el estado de un pedido mediante una solicitud HTTP, lo que permite cambiar el estado de un pedido de "pendiente" a "completado", por ejemplo.
+
+5. **Obtener Pedidos por Cliente**:
+   - Se ha implementado una función para obtener todos los pedidos asociados a un cliente específico. Esto permite a los usuarios ver su historial de pedidos y realizar un seguimiento de sus compras anteriores.
 
 ## Tecnologías Utilizadas
 
