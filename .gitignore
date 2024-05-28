@@ -24,3 +24,5 @@ obj/
 
 # migraciones de Entity Framework
 InternetSalesModel/Migrations/
+InternetSalesModel/obj
+InternetSalesModel/bin

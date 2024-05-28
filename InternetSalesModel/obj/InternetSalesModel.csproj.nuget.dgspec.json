@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jasma\\Desktop\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj": {}
+    "C:\\Users\\yosse\\Dropbox\\PC\\Desktop\\APISales\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jasma\\Desktop\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj": {
+    "C:\\Users\\yosse\\Dropbox\\PC\\Desktop\\APISales\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jasma\\Desktop\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj",
+        "projectUniqueName": "C:\\Users\\yosse\\Dropbox\\PC\\Desktop\\APISales\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj",
         "projectName": "InternetSalesModel",
-        "projectPath": "C:\\Users\\jasma\\Desktop\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj",
-        "packagesPath": "C:\\Users\\jasma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jasma\\Desktop\\APIRecuperacio\\InternetSalesModel\\obj\\",
+        "projectPath": "C:\\Users\\yosse\\Dropbox\\PC\\Desktop\\APISales\\APIRecuperacio\\InternetSalesModel\\InternetSalesModel.csproj",
+        "packagesPath": "C:\\Users\\yosse\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yosse\\Dropbox\\PC\\Desktop\\APISales\\APIRecuperacio\\InternetSalesModel\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jasma\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\yosse\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -103,7 +105,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
