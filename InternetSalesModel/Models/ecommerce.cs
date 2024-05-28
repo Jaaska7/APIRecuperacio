@@ -7,14 +7,17 @@ namespace InternetSalesModel.Models
     {
         [Required]
         [Key]
-        public string Name { get; set; }    
+        public int EcommerceId { get; set; }
+
+        [Required]
+        public string Name { get; set; }
         
         [Required]
         public string Address { get; set; }
 
         [Required]
         public string Email { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
-
-
 }
