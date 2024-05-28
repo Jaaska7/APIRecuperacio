@@ -7,6 +7,9 @@ namespace InternetSalesModel.Models
     {
         [Required]
         [Key]
+        public int CreditCardId { get; set; }
+
+        [Required]
         public string CardNumber { get; set; }
 
         [Required]
@@ -15,5 +18,7 @@ namespace InternetSalesModel.Models
         [Required]
         public string SecurityCode { get; set; }
 
+        public int CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }
