@@ -26,3 +26,4 @@ obj/
 InternetSalesModel/Migrations/
 InternetSalesModel/obj
 InternetSalesModel/bin
+/InternetSalesModel/obj
