@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace InternetSalesModel.Models
 {
@@ -13,7 +12,7 @@ namespace InternetSalesModel.Models
         public int CustomerId { get; set; }
 
         [Required]
-        public string Name { get; set; }    
+        public string Name { get; set; }
         
         [Required]
         public string Address { get; set; }
@@ -21,6 +20,7 @@ namespace InternetSalesModel.Models
         [Required]
         public string Email { get; set; }
 
-
+        public virtual CreditCard CreditCard { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
