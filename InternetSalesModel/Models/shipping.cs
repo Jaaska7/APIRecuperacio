@@ -4,13 +4,17 @@ using System.ComponentModel.DataAnnotations;
 namespace InternetSalesModel.Models
 {
     public class Shipping
-    
     {
         [Required]
         [Key]
-        public string Name { get; set; }    
+        public int ShippingId { get; set; }
         
         [Required]
-        public string ShippingStatus { get; set;}
+        public string Name { get; set; }
+
+        [Required]
+        public string ShippingStatus { get; set; }
+        
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
