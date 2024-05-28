@@ -14,5 +14,6 @@ namespace InternetSalesModel.Models
         public int ItemId { get; set; }
 
         public virtual Item Item { get; set; }
+        public int Quantity { get; internal set; }
     }
 }
