@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InternetSalesModel.Models
 {
@@ -7,9 +8,9 @@ namespace InternetSalesModel.Models
     {
         [Required]
         [Key]
-        public string Name { get; set; }    
-        
-        [Required]
-        public string ShippingStatus { get; set;}
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ShoppingCartId { get; set; }
+
+        public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
     }
 }
