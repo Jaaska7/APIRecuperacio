@@ -25,31 +25,34 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CreditCard>>> GetCreditCards()
         {
-            return await _context.CreditCards.ToListAsync();
+            return await _context.CreditCards
+                                    .Include(cc => cc.Customer)
+                                    .ToListAsync();
         }
 
         // GET: api/CreditCards/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CreditCard>> GetCreditCard(int id)
         {
-            var creditCard = await _context.CreditCards.FindAsync(id);
+            var creditCard = await _context.CreditCards
+                                            .Include(cc => cc.Customer)
+                                            .FirstOrDefaultAsync(cc => cc.CreditCardId == id);
 
             if (creditCard == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Credit card not found" });
             }
 
             return creditCard;
         }
 
         // PUT: api/CreditCards/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCreditCard(int id, CreditCard creditCard)
         {
             if (id != creditCard.CreditCardId)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Credit card ID mismatch" });
             }
 
             _context.Entry(creditCard).State = EntityState.Modified;
@@ -62,7 +65,7 @@ namespace InternetSalesModel.Controllers
             {
                 if (!CreditCardExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Credit card not found" });
                 }
                 else
                 {
@@ -74,7 +77,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/CreditCards
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<CreditCard>> PostCreditCard(CreditCard creditCard)
         {
@@ -88,10 +90,12 @@ namespace InternetSalesModel.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCreditCard(int id)
         {
-            var creditCard = await _context.CreditCards.FindAsync(id);
+            var creditCard = await _context.CreditCards
+                                            .Include(cc => cc.Customer)
+                                            .FirstOrDefaultAsync(cc => cc.CreditCardId == id);
             if (creditCard == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Credit card not found" });
             }
 
             _context.CreditCards.Remove(creditCard);
