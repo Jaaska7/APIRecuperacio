@@ -15,6 +15,6 @@ namespace InternetSalesModel.Models
         [Required]
         public string ShippingStatus { get; set; }
         
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
     }
 }
