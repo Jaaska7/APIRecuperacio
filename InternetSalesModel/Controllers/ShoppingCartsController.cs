@@ -25,14 +25,20 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShoppingCart>>> GetShoppingCarts()
         {
-            return await _context.ShoppingCarts.ToListAsync();
+            return await _context.ShoppingCarts
+                .Include(sc => sc.ShoppingCartItems)
+                .ThenInclude(sci => sci.Item)
+                .ToListAsync();
         }
 
         // GET: api/ShoppingCarts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ShoppingCart>> GetShoppingCart(int id)
         {
-            var shoppingCart = await _context.ShoppingCarts.FindAsync(id);
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(sc => sc.ShoppingCartItems)
+                .ThenInclude(sci => sci.Item)
+                .FirstOrDefaultAsync(sc => sc.ShoppingCartId == id);
 
             if (shoppingCart == null)
             {
@@ -43,7 +49,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // PUT: api/ShoppingCarts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutShoppingCart(int id, ShoppingCart shoppingCart)
         {
@@ -74,12 +79,28 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/ShoppingCarts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ShoppingCart>> PostShoppingCart(ShoppingCart shoppingCart)
         {
+            // Asegurar que los ShoppingCartItems estén vinculados al nuevo ShoppingCart
+            if (shoppingCart.ShoppingCartItems != null)
+            {
+                foreach (var item in shoppingCart.ShoppingCartItems)
+                {
+                    item.ShoppingCartId = shoppingCart.ShoppingCartId;
+                    _context.Entry(item).State = EntityState.Added;
+                }
+            }
+
             _context.ShoppingCarts.Add(shoppingCart);
             await _context.SaveChangesAsync();
+
+            // Cargar datos relacionados para devolver un objeto completamente poblado
+            await _context.Entry(shoppingCart).Collection(sc => sc.ShoppingCartItems).LoadAsync();
+            foreach (var item in shoppingCart.ShoppingCartItems)
+            {
+                await _context.Entry(item).Reference(i => i.Item).LoadAsync();
+            }
 
             return CreatedAtAction("GetShoppingCart", new { id = shoppingCart.ShoppingCartId }, shoppingCart);
         }
