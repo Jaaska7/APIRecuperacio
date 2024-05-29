@@ -6,11 +6,11 @@ namespace InternetSalesModel.Models
     {
         [Required]
         public int OrderId { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Order? Order { get; set; }
 
         [Required]
         public int ItemId { get; set; }
-        public virtual Item Item { get; set; }
+        public virtual Item? Item { get; set; }
 
         // The price of the item at the time of the order
         public decimal Price { get; set; } = 0;
