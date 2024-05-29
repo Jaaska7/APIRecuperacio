@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace InternetSalesModel.Models
 {
@@ -9,10 +10,12 @@ namespace InternetSalesModel.Models
         [Required]
         [Key]
         public int CompanyId { get; set; }
-        
+
         [Required]
         public string Name { get; set; }
-        
-        public virtual ICollection<Item> Items { get; set; }
+
+        [JsonIgnore]
+
+        public virtual ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }
