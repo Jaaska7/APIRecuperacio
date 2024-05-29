@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace InternetSalesModel.Models
 {
@@ -19,6 +20,8 @@ namespace InternetSalesModel.Models
         public string SecurityCode { get; set; }
 
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+
+        [JsonIgnore]
+        public virtual Customer? Customer { get; set; }
     }
 }
