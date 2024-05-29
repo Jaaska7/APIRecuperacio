@@ -25,31 +25,32 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Company>>> GetCompanies()
         {
-            return await _context.Companies.ToListAsync();
+            return await _context.Companies.Include(c => c.Items).ToListAsync();
         }
 
         // GET: api/Companies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(int id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            var company = await _context.Companies
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.CompanyId == id);
 
             if (company == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Company not found" });
             }
 
             return company;
         }
 
         // PUT: api/Companies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCompany(int id, Company company)
         {
             if (id != company.CompanyId)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Company ID mismatch" });
             }
 
             _context.Entry(company).State = EntityState.Modified;
@@ -62,7 +63,7 @@ namespace InternetSalesModel.Controllers
             {
                 if (!CompanyExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Company not found" });
                 }
                 else
                 {
@@ -74,7 +75,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/Companies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Company>> PostCompany(Company company)
         {
@@ -88,10 +88,12 @@ namespace InternetSalesModel.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            var company = await _context.Companies
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.CompanyId == id);
             if (company == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Company not found" });
             }
 
             _context.Companies.Remove(company);
