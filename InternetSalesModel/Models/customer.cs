@@ -20,7 +20,7 @@ namespace InternetSalesModel.Models
         [Required]
         public string Email { get; set; }
 
-        public virtual CreditCard CreditCard { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual CreditCard? CreditCard { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
     }
 }
