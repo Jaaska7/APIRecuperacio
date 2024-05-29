@@ -25,31 +25,34 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ecommerce>>> GetEcommerce()
         {
-            return await _context.Ecommerce.ToListAsync();
+            return await _context.Ecommerce
+                                    .Include(e => e.Orders)
+                                    .ToListAsync();
         }
 
         // GET: api/Ecommerce/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Ecommerce>> GetEcommerce(int id)
         {
-            var ecommerce = await _context.Ecommerce.FindAsync(id);
+            var ecommerce = await _context.Ecommerce
+                                            .Include(e => e.Orders)
+                                            .FirstOrDefaultAsync(e => e.EcommerceId == id);
 
             if (ecommerce == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Ecommerce not found" });
             }
 
             return ecommerce;
         }
 
         // PUT: api/Ecommerce/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEcommerce(int id, Ecommerce ecommerce)
         {
             if (id != ecommerce.EcommerceId)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Ecommerce ID mismatch" });
             }
 
             _context.Entry(ecommerce).State = EntityState.Modified;
@@ -62,7 +65,7 @@ namespace InternetSalesModel.Controllers
             {
                 if (!EcommerceExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Ecommerce not found" });
                 }
                 else
                 {
@@ -74,7 +77,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/Ecommerce
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Ecommerce>> PostEcommerce(Ecommerce ecommerce)
         {
@@ -88,10 +90,12 @@ namespace InternetSalesModel.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEcommerce(int id)
         {
-            var ecommerce = await _context.Ecommerce.FindAsync(id);
+            var ecommerce = await _context.Ecommerce
+                                            .Include(e => e.Orders)
+                                            .FirstOrDefaultAsync(e => e.EcommerceId == id);
             if (ecommerce == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Ecommerce not found" });
             }
 
             _context.Ecommerce.Remove(ecommerce);
