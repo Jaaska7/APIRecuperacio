@@ -19,8 +19,8 @@ namespace InternetSalesModel.Models
 
         [Required]
         public int CustomerId { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<OrderItem>? OrderItems { get; set; } = new List<OrderItem>();
     }
 }
