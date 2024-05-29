@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +15,6 @@ public class ItemStats
     public int TotalQuantity { get; set; }
     public decimal TotalSales { get; set; }
 }
-
 
 namespace InternetSalesModel.Controllers
 {
@@ -32,14 +33,20 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems()
         {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.OrderItems
+                .Include(oi => oi.Order)
+                .Include(oi => oi.Item)
+                .ToListAsync();
         }
 
-        // GET: api/OrderItems/5
+        // GET: api/OrderItems/5/5
         [HttpGet("{orderId}/{itemId}")]
         public async Task<ActionResult<OrderItem>> GetOrderItem(int orderId, int itemId)
         {
-            var orderItem = await _context.OrderItems.FindAsync(orderId, itemId);
+            var orderItem = await _context.OrderItems
+                .Include(oi => oi.Order)
+                .Include(oi => oi.Item)
+                .FirstOrDefaultAsync(oi => oi.OrderId == orderId && oi.ItemId == itemId);
 
             if (orderItem == null)
             {
@@ -50,7 +57,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // PUT: api/OrderItems/5/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{orderId}/{itemId}")]
         public async Task<IActionResult> PutOrderItem(int orderId, int itemId, OrderItem orderItem)
         {
@@ -81,7 +87,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/OrderItems
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
         {
@@ -119,11 +124,6 @@ namespace InternetSalesModel.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool OrderItemExists(int orderId, int itemId)
-        {
-            return _context.OrderItems.Any(e => e.OrderId == orderId && e.ItemId == itemId);
         }
 
         // PUT: api/OrderItems/{orderId}/{itemId}/5
@@ -183,5 +183,9 @@ namespace InternetSalesModel.Controllers
             return stats;
         }
 
+        private bool OrderItemExists(int orderId, int itemId)
+        {
+            return _context.OrderItems.Any(e => e.OrderId == orderId && e.ItemId == itemId);
+        }
     }
 }
