@@ -25,31 +25,36 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Customers
+                                 .Include(c => c.CreditCard)
+                                 .Include(c => c.Orders)
+                                 .ToListAsync();
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers
+                                         .Include(c => c.CreditCard)
+                                         .Include(c => c.Orders)
+                                         .FirstOrDefaultAsync(c => c.CustomerId == id);
 
             if (customer == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Customer not found" });
             }
 
             return customer;
         }
 
         // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
             if (id != customer.CustomerId)
             {
-                return BadRequest();
+                return BadRequest(new { message = "Customer ID mismatch" });
             }
 
             _context.Entry(customer).State = EntityState.Modified;
@@ -62,7 +67,7 @@ namespace InternetSalesModel.Controllers
             {
                 if (!CustomerExists(id))
                 {
-                    return NotFound();
+                    return NotFound(new { message = "Customer not found" });
                 }
                 else
                 {
@@ -74,7 +79,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/Customers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
@@ -88,10 +92,13 @@ namespace InternetSalesModel.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers
+                                         .Include(c => c.CreditCard)
+                                         .Include(c => c.Orders)
+                                         .FirstOrDefaultAsync(c => c.CustomerId == id);
             if (customer == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Customer not found" });
             }
 
             _context.Customers.Remove(customer);
