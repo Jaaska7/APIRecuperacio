@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternetSalesModel.Database;
@@ -43,7 +42,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // PUT: api/ShoppingCartItems/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{shoppingCartId}/{itemId}")]
         public async Task<IActionResult> PutShoppingCartItem(int shoppingCartId, int itemId, ShoppingCartItem shoppingCartItem)
         {
@@ -74,7 +72,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/ShoppingCartItems
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ShoppingCartItem>> PostShoppingCartItem(ShoppingCartItem shoppingCartItem)
         {
