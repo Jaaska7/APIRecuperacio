@@ -19,7 +19,8 @@ namespace InternetSalesModel.Models
 
         [Required]
         public int CompanyId { get; set; }
-        public virtual Company Company { get; set; }
+        public virtual Company? Company { get; set; } = null!;
+
         
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
