@@ -2,11 +2,11 @@
 
 ## Descripción del Proyecto
 
-Este proyecto es una API para un modelo de ventas en línea desarrollado en C# utilizando Entity Framework. El objetivo es gestionar las entidades y relaciones de un sistema de ventas por internet, permitiendo operaciones CRUD (Crear, Leer, Actualizar, Eliminar) y otras funcionalidades específicas.
+Este proyecto consiste en una API para un modelo de ventas en línea desarrollado en C# utilizando Entity Framework. El objetivo es gestionar las entidades y relaciones de un sistema de ventas por internet, permitiendo operaciones CRUD (Crear, Leer, Actualizar, Eliminar) y otras funcionalidades específicas.
 
 ## Entidades del Modelo ER
 
-El modelo ER tiene las siguientes entidades:
+El modelo Entidad-Relación tiene las siguientes entidades:
 
 1. **Customer (Cliente)**:
    - Atributos: Name (Nombre), Address (Dirección), Email (Correo Electrónico)
@@ -42,13 +42,14 @@ El modelo ER tiene las siguientes entidades:
 ### CRUD para Entidades
 
 Desarrollaremos operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para las siguientes entidades:
+- **Customer**
 - **Item**
 - **Order**
 - **Shopping Cart**
-
-### Funcionalidades Adicionales
-
-Perfecto, añadamos esas funcionalidades adicionales al apartado del README:
+- **Company**
+- **Shipping**
+- **Credit Card**
+- **E-Commerce**
 
 ### Funcionalidades Adicionales
 
