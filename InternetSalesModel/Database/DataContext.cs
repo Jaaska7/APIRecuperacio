@@ -123,6 +123,11 @@ namespace InternetSalesModel.Database
                 .WithOne(sci => sci.Item)
                 .HasForeignKey(sci => sci.ItemId);
 
+            modelBuilder.Entity<Item>()
+                .HasOne(i => i.Company) 
+                .WithMany(c => c.Items) 
+                .HasForeignKey(i => i.CompanyId); 
+
             // Order
             modelBuilder.Entity<Order>()
                 .HasKey(o => o.OrderId);
