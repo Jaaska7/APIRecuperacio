@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternetSalesModel.Database;
@@ -25,31 +24,38 @@ namespace InternetSalesModel.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Item)
+                .ToListAsync();
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Item)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
 
             if (order == null)
             {
-                return NotFound();
+                return NotFound("Pedido no encontrado.");
             }
 
             return order;
         }
 
         // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(int id, Order order)
         {
             if (id != order.OrderId)
             {
-                return BadRequest();
+                return BadRequest("ID del pedido no coincide.");
             }
 
             _context.Entry(order).State = EntityState.Modified;
@@ -62,7 +68,7 @@ namespace InternetSalesModel.Controllers
             {
                 if (!OrderExists(id))
                 {
-                    return NotFound();
+                    return NotFound("Pedido no encontrado.");
                 }
                 else
                 {
@@ -74,7 +80,6 @@ namespace InternetSalesModel.Controllers
         }
 
         // POST: api/Orders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(Order order)
         {
@@ -91,7 +96,7 @@ namespace InternetSalesModel.Controllers
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
-                return NotFound();
+                return NotFound("Pedido no encontrado.");
             }
 
             _context.Orders.Remove(order);
@@ -109,7 +114,13 @@ namespace InternetSalesModel.Controllers
         [HttpGet("ByCustomer/{customerId}")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByCustomer(int customerId)
         {
-            var orders = await _context.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
+            var orders = await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Item)
+                .Where(o => o.CustomerId == customerId)
+                .ToListAsync();
+
             if (orders == null || !orders.Any())
             {
                 return NotFound("No se encontraron pedidos para este cliente.");
@@ -154,7 +165,11 @@ namespace InternetSalesModel.Controllers
         [HttpGet("TotalAmount/{id}")]
         public async Task<ActionResult<decimal>> GetOrderTotalAmount(int id)
         {
-            var order = await _context.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Item).FirstOrDefaultAsync(o => o.OrderId == id);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Item)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
             if (order == null)
             {
                 return NotFound("Pedido no encontrado.");
@@ -163,7 +178,5 @@ namespace InternetSalesModel.Controllers
             decimal totalAmount = order.OrderItems.Sum(oi => oi.Item.Price * oi.Quantity);
             return totalAmount;
         }
-
-
     }
 }
